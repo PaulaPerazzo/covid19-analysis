@@ -42,6 +42,25 @@ p_bar_americas
 
 ## --------- visualização de dashboard com todos os gráficos ---------------------- ##
 
-plot(p_plot, p_bar, p_bar_americas, layout=(2,2))
+plot(p_plot, p_bar, p_bar_americas, layout=(2, 2))
 
 
+## --------- previsão de dados ---------------------- ##
+
+using ScikitLearn
+
+date = covid.Date
+date_string = string.(date)
+deaths = covid.Deaths
+
+plot()
+
+death_plot = plot(date_string, deaths, label="deaths per time")
+
+@sk_import linear_model:LogisticRegression
+@sk_import model_selection:train_test_split
+
+x_train, x_test, y_train, y_test = train_test_split(date_string, deaths)
+
+rf_model = RandomForestClassifier()
+fit!(rf_model, x_train, y_train)
