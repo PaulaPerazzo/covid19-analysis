@@ -60,7 +60,7 @@ death_plot = plot(date_string, deaths, label="deaths per time")
 @sk_import linear_model:LogisticRegression
 @sk_import model_selection:train_test_split
 
-x_train, x_test, y_train, y_test = train_test_split(date_string, deaths)
+y_train, y_test = train_test_split(date_string, deaths)
 
-rf_model = RandomForestClassifier()
-fit!(rf_model, x_train, y_train)
+regression_model = LogisticRegression()
+fit!(regression_model, y_train)
