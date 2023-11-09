@@ -48,19 +48,24 @@ plot(p_plot, p_bar, p_bar_americas, layout=(2, 2))
 ## --------- previsão de dados ---------------------- ##
 
 using ScikitLearn
+using Dates
 
 date = covid.Date
-date_string = string.(date)
+# date_string = string.(date)
+date_numeric = [Dates.value(d) for d in date]
 deaths = covid.Deaths
+
+date_numeric = reshape(date_numeric, :, 1)
+deaths = reshape(deaths, :, 1)
 
 plot()
 
-death_plot = plot(date_string, deaths, label="deaths per time")
+death_plot = plot(date_numeric, deaths, label="deaths per time")
 
 @sk_import linear_model:LogisticRegression
 @sk_import model_selection:train_test_split
 
-x_train, x_test, y_train, y_test = train_test_split(date_string, deaths)
+x_train, x_test, y_train, y_test = train_test_split(date_numeric, deaths)
 
 regression_model = LogisticRegression()
 fit!(regression_model, x_train, y_train)
